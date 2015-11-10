@@ -4,20 +4,20 @@ var xtend = require('xtend')
 var EE = require('events').EventEmitter
 
 var defaults = {
-  maxEventLoopDelay: 42,
+  maxDelay: 42,
   sampleInterval: 5
 }
 
 function loopbench (opts) {
-  opts = xtend(opts, defaults)
-
-  var sampleInterval = opts.sampleInterval
-  var maxEventLoopDelay = opts.maxEventLoopDelay
+  opts = xtend(defaults, opts)
 
   var timer = setInterval(checkLoopDelay, opts.sampleInterval)
 
   var result = new EE()
-  result.eventLoopDelay = 0
+
+  result.delay = 0
+  result.sampleInterval = opts.sampleInterval
+  result.maxDelay = opts.maxDelay
   result.stop = clearInterval.bind(null, timer)
 
   var last = now()
@@ -26,10 +26,10 @@ function loopbench (opts) {
 
   function checkLoopDelay () {
     var toCheck = now()
-    result.eventLoopDelay = toCheck - last - sampleInterval
+    result.delay = toCheck - last - result.sampleInterval
     last = toCheck
 
-    if (result.eventLoopDelay > maxEventLoopDelay) {
+    if (result.delay > result.maxDelay) {
       result.emit('max')
     }
   }

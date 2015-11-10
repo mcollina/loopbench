@@ -14,40 +14,45 @@ function now () {
 }
 
 test('bench the event loop', function (t) {
-  var instance = loopbench({
-    sampleInterval: 1 // ms
-  })
+  var instance = loopbench()
 
-  t.equal(instance.eventLoopDelay, 0, 'eventLoopDelay starts at zero')
+  t.equal(instance.maxDelay, 42, 'default maxDelay matches')
+  t.equal(instance.sampleInterval, 5, 'default sampleInterval matches')
+  t.equal(instance.delay, 0, 'delay starts at zero')
+
+  instance.sampleInterval = 1
 
   sleep(4)
   setImmediate(function () {
-    console.log('delay', instance.eventLoopDelay)
-    t.ok(instance.eventLoopDelay < 6, 'eventLoopDelay must be less than 6 ms')
-    t.ok(instance.eventLoopDelay > -1, 'eventLoopDelay must be greater than -1 ms')
+    console.log('delay', instance.delay)
+    t.ok(instance.delay < 6, 'delay must be less than 6 ms')
+    t.ok(instance.delay > -1, 'delay must be greater than -1 ms')
     instance.stop()
     t.end()
   })
 })
 
 test('emits a "max" event when the maxEventLoopDelay is reached', function (t) {
-  t.plan(4)
+  t.plan(6)
 
   var instance = loopbench({
     sampleInterval: 1, // ms
-    maxEventLoopDelay: 10 // ms
+    maxDelay: 10 // ms
   })
 
-  t.equal(instance.eventLoopDelay, 0, 'eventLoopDelay starts at zero')
+  t.equal(instance.maxDelay, 10, 'maxDelay matches')
+  t.equal(instance.sampleInterval, 1, 'sampleInterval matches')
+
+  t.equal(instance.delay, 0, 'delay starts at zero')
 
   instance.on('max', function () {
-    console.log('delay', instance.eventLoopDelay)
+    console.log('delay', instance.delay)
     t.pass('max is emitted')
-    t.ok(instance.eventLoopDelay > 10, 'eventLoopDelay must be greater than 10 ms')
+    t.ok(instance.delay > 10, 'delay must be greater than 10 ms')
   })
 
   setImmediate(function () {
-    t.ok(instance.eventLoopDelay > 10, 'eventLoopDelay must be greater than 10 ms')
+    t.ok(instance.delay > 10, 'delay must be greater than 10 ms')
     instance.stop()
   })
 

@@ -51,11 +51,11 @@ test('emits a "load" event when the limit is reached', function (t) {
     t.pass('load is emitted')
     t.ok(instance.delay > 10, 'delay must be greater than 10 ms')
     t.ok(instance.overLimit, 'must be overLimit')
-  })
 
-  setImmediate(function () {
-    t.ok(instance.delay > 10, 'delay must be greater than 10 ms')
-    instance.stop()
+    setTimeout(function () {
+      t.notOk(instance.overLimit, 'overLimit returned to false')
+      instance.stop()
+    }, instance.sampleInterval + 1)
   })
 
   sleep(50)

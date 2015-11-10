@@ -30,7 +30,10 @@ function loopbench (opts) {
     last = toCheck
 
     if (result.delay > result.maxDelay) {
-      result.emit('max')
+      result.overLimit = true
+      result.emit('load')
+    } else {
+      result.overLimit = false
     }
   }
 

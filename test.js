@@ -27,13 +27,14 @@ test('bench the event loop', function (t) {
     console.log('delay', instance.delay)
     t.ok(instance.delay < 6, 'delay must be less than 6 ms')
     t.ok(instance.delay > -1, 'delay must be greater than -1 ms')
+    t.notOk(instance.overLimit, 'must not be overLimit')
     instance.stop()
     t.end()
   })
 })
 
-test('emits a "max" event when the maxEventLoopDelay is reached', function (t) {
-  t.plan(6)
+test('emits a "load" event when the maxEventLoopDelay is reached', function (t) {
+  t.plan(7)
 
   var instance = loopbench({
     sampleInterval: 1, // ms
@@ -45,10 +46,11 @@ test('emits a "max" event when the maxEventLoopDelay is reached', function (t) {
 
   t.equal(instance.delay, 0, 'delay starts at zero')
 
-  instance.on('max', function () {
+  instance.on('load', function () {
     console.log('delay', instance.delay)
-    t.pass('max is emitted')
+    t.pass('load is emitted')
     t.ok(instance.delay > 10, 'delay must be greater than 10 ms')
+    t.ok(instance.overLimit, 'must be overLimit')
   })
 
   setImmediate(function () {

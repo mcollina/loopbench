@@ -25,7 +25,7 @@ test('bench the event loop', function (t) {
   sleep(4)
   setImmediate(function () {
     console.log('delay', instance.delay)
-    t.ok(instance.delay < 7, 'delay must be less than 7 ms')
+    t.ok(instance.delay < 8, 'delay must be less than 8 ms')
     t.ok(instance.delay > -1, 'delay must be greater than -1 ms')
     t.notOk(instance.overLimit, 'must not be overLimit')
     instance.stop()

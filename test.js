@@ -53,9 +53,10 @@ test('emits a "load" event when the limit is reached', function (t) {
     t.ok(instance.overLimit, 'must be overLimit')
 
     setTimeout(function () {
+      console.log('delay', instance.delay)
       t.notOk(instance.overLimit, 'overLimit returned to false')
       instance.stop()
-    }, instance.sampleInterval + 1)
+    }, instance.sampleInterval * 10)
   })
 
   sleep(50)

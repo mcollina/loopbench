@@ -30,7 +30,7 @@ See [example.js][example].
 
   * <a href="#constructor"><code><b>loopbench()</b></code></a>
   * <a href="#delay"><code>instance.<b>delay</b></code></a>
-  * <a href="#maxDelay"><code>instance.<b>maxDelay</b></code></a>
+  * <a href="#limit"><code>instance.<b>limit</b></code></a>
   * <a href="#overLimit"><code>instance.<b>overLimit</b></code></a>
   * <a href="#stop"><code>instance.<b>stop()</b></code></a>
 
@@ -43,14 +43,14 @@ Creates a new instance of loopbench.
 Options:
 
 * `sampleInterval`: the interval at which the eventLoop should be
-  sampled
-* `maxDelay`: the maximum amount of delay that is tollerated before
-  [`overLimit`](#overlimit) becomes true, and the `load` event is
-  emitted
+  sampled, defaults to `5`.
+* `limit`: the maximum amount of delay that is tollerated before
+  [`overLimit`](#overLimit) becomes true, and the `load` event is
+  emitted, defaults to `42`.
 
 Events:
 
-* `load`, emitted when `instance.delay > instance.maxDelay`
+* `load`, emitted when `instance.delay > instance.limit`
 
 -------------------------------------------------------
 <a name="delay"></a>
@@ -60,8 +60,8 @@ The delay in milliseconds (and fractions) from the expected run.
 It might be negative (in older nodes).
 
 -------------------------------------------------------
-<a name="maxDelay"></a>
-### instance.maxDelay
+<a name="limit"></a>
+### instance.limit
 
 The maximum amount of delay that is tollerated before
 [`overLimit`](#overlimit) becomes true, and the `load` event is
@@ -71,7 +71,7 @@ emitted.
 <a name="overLimit"></a>
 ### instance.overLimit
 
-Is `true` if the `instance.delay > instance.maxDelay`.
+Is `true` if the `instance.delay > instance.limit`.
 
 -------------------------------------------------------
 <a name="stop"></a>

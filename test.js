@@ -16,7 +16,7 @@ function now () {
 test('bench the event loop', function (t) {
   var instance = loopbench()
 
-  t.equal(instance.maxDelay, 42, 'default maxDelay matches')
+  t.equal(instance.limit, 42, 'default limit matches')
   t.equal(instance.sampleInterval, 5, 'default sampleInterval matches')
   t.equal(instance.delay, 0, 'delay starts at zero')
 
@@ -25,7 +25,7 @@ test('bench the event loop', function (t) {
   sleep(4)
   setImmediate(function () {
     console.log('delay', instance.delay)
-    t.ok(instance.delay < 6, 'delay must be less than 6 ms')
+    t.ok(instance.delay < 7, 'delay must be less than 7 ms')
     t.ok(instance.delay > -1, 'delay must be greater than -1 ms')
     t.notOk(instance.overLimit, 'must not be overLimit')
     instance.stop()
@@ -33,15 +33,15 @@ test('bench the event loop', function (t) {
   })
 })
 
-test('emits a "load" event when the maxEventLoopDelay is reached', function (t) {
+test('emits a "load" event when the limit is reached', function (t) {
   t.plan(7)
 
   var instance = loopbench({
     sampleInterval: 1, // ms
-    maxDelay: 10 // ms
+    limit: 10 // ms
   })
 
-  t.equal(instance.maxDelay, 10, 'maxDelay matches')
+  t.equal(instance.limit, 10, 'limit matches')
   t.equal(instance.sampleInterval, 1, 'sampleInterval matches')
 
   t.equal(instance.delay, 0, 'delay starts at zero')

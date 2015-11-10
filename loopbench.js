@@ -4,7 +4,7 @@ var xtend = require('xtend')
 var EE = require('events').EventEmitter
 
 var defaults = {
-  maxDelay: 42,
+  limit: 42,
   sampleInterval: 5
 }
 
@@ -17,7 +17,7 @@ function loopbench (opts) {
 
   result.delay = 0
   result.sampleInterval = opts.sampleInterval
-  result.maxDelay = opts.maxDelay
+  result.limit = opts.limit
   result.stop = clearInterval.bind(null, timer)
 
   var last = now()
@@ -29,7 +29,7 @@ function loopbench (opts) {
     result.delay = toCheck - last - result.sampleInterval
     last = toCheck
 
-    if (result.delay > result.maxDelay) {
+    if (result.delay > result.limit) {
       result.overLimit = true
       result.emit('load')
     } else {

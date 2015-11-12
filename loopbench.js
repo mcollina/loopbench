@@ -26,14 +26,16 @@ function loopbench (opts) {
 
   function checkLoopDelay () {
     var toCheck = now()
+    var overLimit = result.overLimit
     result.delay = toCheck - last - result.sampleInterval
     last = toCheck
 
-    if (result.delay > result.limit) {
-      result.overLimit = true
+    result.overLimit = result.delay > result.limit
+
+    if (overLimit && !result.overLimit) {
+      result.emit('unload')
+    } else if (!overLimit && result.overLimit) {
       result.emit('load')
-    } else {
-      result.overLimit = false
     }
   }
 

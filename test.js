@@ -61,3 +61,32 @@ test('emits a "load" event when the limit is reached', function (t) {
 
   sleep(50)
 })
+
+test('emits a "unload" event when the loop goes under the limit', function (t) {
+  t.plan(7)
+
+  var instance = loopbench({
+    sampleInterval: 1, // ms
+    limit: 10 // ms
+  })
+
+  t.equal(instance.limit, 10, 'limit matches')
+  t.equal(instance.sampleInterval, 1, 'sampleInterval matches')
+
+  t.equal(instance.delay, 0, 'delay starts at zero')
+
+  instance.once('load', function () {
+    console.log('delay', instance.delay)
+    t.pass('load is emitted')
+    t.ok(instance.delay > 10, 'delay must be greater than 10 ms')
+    t.ok(instance.overLimit, 'must be overLimit')
+
+    instance.once('unload', function () {
+      console.log('delay', instance.delay)
+      t.notOk(instance.overLimit, 'overLimit returned to false')
+      instance.stop()
+    })
+  })
+
+  sleep(50)
+})

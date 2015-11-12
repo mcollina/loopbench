@@ -51,6 +51,7 @@ Options:
 Events:
 
 * `load`, emitted when `instance.delay > instance.limit`
+* `unload`, emitted when `overLimit` goes from `true` and `false`
 
 -------------------------------------------------------
 <a name="delay"></a>

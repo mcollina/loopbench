@@ -12,6 +12,7 @@ function loopbench (opts) {
   opts = xtend(defaults, opts)
 
   var timer = setInterval(checkLoopDelay, opts.sampleInterval)
+  timer.unref()
 
   var result = new EE()
 

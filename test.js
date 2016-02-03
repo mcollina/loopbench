@@ -6,6 +6,9 @@ var loopbench = require('./')
 function sleep (msec) {
   var start = now()
   while (now() - start < msec) {}
+
+  // just to keep the event loop open
+  setTimeout(function () {}, 50)
 }
 
 function now () {

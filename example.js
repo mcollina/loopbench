@@ -1,16 +1,18 @@
 'use strict'
 
-var http = require('http')
-var server = http.createServer(serve)
-var loopbench = require('./')()
+const http = require('http')
+const server = http.createServer(serve)
+const loopbench = require('./')()
 
 loopbench.on('load', function () {
   console.log('max delay reached', loopbench.delay)
 })
 
 function sleep (msec) {
-  var start = Date.now()
-  while (Date.now() - start < msec) {}
+  let i = 0
+  const start = Date.now()
+  while (Date.now() - start < msec) { i++ }
+  return i
 }
 
 function serve (req, res) {
@@ -26,7 +28,7 @@ function serve (req, res) {
 }
 
 server.listen(0, function () {
-  var req = http.get(server.address())
+  const req = http.get(server.address())
 
   req.on('response', function (res) {
     console.log('got status code', res.statusCode)
@@ -34,7 +36,7 @@ server.listen(0, function () {
 
     setTimeout(function () {
       console.log('overLimit after load', loopbench.overLimit)
-      var req = http.get(server.address())
+      const req = http.get(server.address())
 
       req.on('response', function (res) {
         console.log('got status code', res.statusCode)

@@ -1,6 +1,5 @@
 'use strict'
 
-const xtend = require('xtend')
 const EE = require('events').EventEmitter
 
 const defaults = {
@@ -9,7 +8,7 @@ const defaults = {
 }
 
 function loopbench (opts) {
-  opts = xtend(defaults, opts)
+  opts = Object.assign({}, defaults, opts)
 
   const timer = setInterval(checkLoopDelay, opts.sampleInterval)
   timer.unref()

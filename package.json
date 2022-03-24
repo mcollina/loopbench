@@ -27,9 +27,6 @@
     "tap-spec": "^5.0.0",
     "tape": "^5.5.2"
   },
-  "dependencies": {
-    "xtend": "^4.0.2"
-  },
   "engines": {
     "node": ">=12.0.0"
   }

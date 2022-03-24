@@ -1,7 +1,5 @@
 # loopbench
 
-[![Build Status](https://travis-ci.org/mqttjs/MQTT.js.svg)](https://travis-ci.org/mqttjs/MQTT.js)
-
 Benchmark your event loop, extracted from [hapi](http://npm.im/hapi),
 [hoek](http://npm.im/hoek), [heavy](http://npm.im/heavy) and
 [boom](http://npm.im/boom).
@@ -83,7 +81,7 @@ Stops the sampling.
 <a name="license"></a>
 ## License
 
-Copyright Matteo Collina 2015, Licensed under [MIT][].
+Copyright Matteo Collina 2015-2022, Licensed under [MIT][].
 
 [MIT]: ./LICENSE
 [example]: ./example.js

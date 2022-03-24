@@ -1,23 +1,26 @@
 'use strict'
 
-var test = require('tape')
-var loopbench = require('./')
+const test = require('tape')
+const loopbench = require('./')
 
 function sleep (msec) {
-  var start = now()
-  while (now() - start < msec) {}
+  const start = now()
+  let i = 0
+  while (now() - start < msec) {
+    i++
+  }
 
   // just to keep the event loop open
   setTimeout(function () {}, 50)
+  return i
 }
 
 function now () {
-  var ts = process.hrtime()
-  return (ts[0] * 1e3) + (ts[1] / 1e6)
+  return process.hrtime.bigint() / 1000000n
 }
 
 test('bench the event loop', function (t) {
-  var instance = loopbench()
+  const instance = loopbench()
 
   t.equal(instance.limit, 42, 'default limit matches')
   t.equal(instance.sampleInterval, 5, 'default sampleInterval matches')
@@ -39,7 +42,7 @@ test('bench the event loop', function (t) {
 test('emits a "load" event when the limit is reached', function (t) {
   t.plan(7)
 
-  var instance = loopbench({
+  const instance = loopbench({
     sampleInterval: 1, // ms
     limit: 10 // ms
   })
@@ -68,7 +71,7 @@ test('emits a "load" event when the limit is reached', function (t) {
 test('emits a "unload" event when the loop goes under the limit', function (t) {
   t.plan(7)
 
-  var instance = loopbench({
+  const instance = loopbench({
     sampleInterval: 1, // ms
     limit: 10 // ms
   })
